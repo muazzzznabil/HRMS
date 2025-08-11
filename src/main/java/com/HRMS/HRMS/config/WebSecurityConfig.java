@@ -20,7 +20,7 @@ public class WebSecurityConfig {
 
         http
         .authorizeHttpRequests((requests) -> requests
-        .requestMatchers("/login","/registration")
+        .requestMatchers("/login")
         .permitAll()
         .anyRequest().authenticated()
         )
