@@ -1,65 +1,63 @@
 <!DOCTYPE html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
->
-  <head
-    th:replace="~{fragments/bootstrap:: bootstrap('HRMS-Dashboard')}"
-  ></head>
-  <body class="container">
-    <div class="mt-5">
-      <h1>Welcome back ,<span sec:authentication="name">User</span>!</h1>
-      <h2>HRMS: Human Resources Management System</h2>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-      <div class="my-5">
-        <!-- Admin -->
-        <nav sec:authorize="hasRole('ROLE_ADMIN')" class="nav">
-          <a class="nav-link active"  th:href="@{/departments}"
-            >Department Maintenance</a
-          >
-          <a class="nav-link active" href="#">User Maintenance</a>
-        </nav>
-        <!-- Admin -->
-        <!-- Manager -->
-        <nav sec:authorize="hasRole('ROLE_MANAGER')" class= "nav">
-          <a class="nav-link active" aria-current="page" href="#"
-            >Leave Application Listing</a
-          >
-        </nav>
-        <!-- Manager -->
-         <!-- Employee -->
-        <nav sec:authorize="hasRole('ROLE_EMPLOYEE')" class= "nav">
-          <a class="nav-link active" aria-current="page" href="#"
-            >Leave Application Listing</a
-          >
-          <a class="nav-link" href="#">Leave Application Form</a>
-        </nav>
-        <!-- Employee -->
-      </div>
+<head th:replace="~{fragments/bootstrap:: bootstrap('HRMS-Dashboard')}"></head>
 
-      <form th:action="@{/logout}" method="post">
-        <button type="submit" class="btn btn-warning">
-          Logout
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-log-out-icon lucide-log-out"
-          >
-            <path d="m16 17 5-5-5-5" />
-            <path d="M21 12H9" />
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-          </svg>
-        </button>
-      </form>
+<body class="container">
+  <div class="mt-5">
+    <h1>Welcome back ,<span sec:authentication="name">User</span>!</h1>
+    <h2>HRMS: Human Resources Management System</h2>
+
+    <div class="my-5">
+      <!-- Admin -->
+      <nav sec:authorize="hasRole('ROLE_ADMIN')" class="nav">
+        <a class="nav-link active" th:href="@{/departments}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20"
+            height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="lucide lucide-house-plus-icon lucide-house-plus">
+            <path
+              d="M12.662 21H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v2.475" />
+            <path d="M14.959 12.717A1 1 0 0 0 14 12h-4a1 1 0 0 0-1 1v8" />
+            <path d="M15 18h6" />
+            <path d="M18 15v6" />
+          </svg> Department Maintenance</a>
+        <a class="nav-link active" th:href="@{/user}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="lucide lucide-users-round-icon lucide-users-round">
+            <path d="M18 21a8 8 0 0 0-16 0" />
+            <circle cx="10" cy="8" r="5" />
+            <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+          </svg> User Maintenance</a>
+      </nav>
+      <!-- Admin -->
+      <!-- Manager -->
+      <nav sec:authorize="hasRole('ROLE_MANAGER')" class="nav">
+        <a class="nav-link active" aria-current="page" href="#">Leave Application Listing</a>
+      </nav>
+      <!-- Manager -->
+      <!-- Employee -->
+      <nav sec:authorize="hasRole('ROLE_EMPLOYEE')" class="nav">
+        <a class="nav-link active" aria-current="page" href="#">Leave Application Listing</a>
+        <a class="nav-link" href="#">Leave Application Form</a>
+      </nav>
+      <!-- Employee -->
     </div>
-  </body>
+
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn btn-warning">
+        Logout
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-log-out-icon lucide-log-out">
+          <path d="m16 17 5-5-5-5" />
+          <path d="M21 12H9" />
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        </svg>
+      </button>
+    </form>
+  </div>
+</body>
+
 </html>

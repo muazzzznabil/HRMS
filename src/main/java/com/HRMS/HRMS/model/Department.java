@@ -12,13 +12,17 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Department {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     private String department_name;
+
+    @Nullable
+    @OneToMany
+    private List<user> user;
 
     public Long getId() {
         return id;
@@ -43,9 +47,5 @@ public class Department {
     public void setUser(List<user> user) {
         this.user = user;
     }
-
-    @Nullable
-    @OneToMany
-    private List<user> user;
 
 }

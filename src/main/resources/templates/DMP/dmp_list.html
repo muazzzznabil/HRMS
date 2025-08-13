@@ -6,7 +6,7 @@
 <body class="container mt-5">
   <h1>Department Management</h1>
 
-  <div class="my-3 d-flex justify-content-end">
+  <div class="my-3 d-flex justify-content-end ">
     <button class="btn btn-success align-items-end" data-bs-toggle="modal" data-bs-target="#addNewDepartment">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -18,7 +18,7 @@
         <path d="M18 15v6" />
       </svg>Add Departments
     </button>
-    <!-- Modal -->
+    <!-- Modal Add Dept-->
     <div class="modal fade" id="addNewDepartment" tabindex="-1" role="dialog" aria-labelledby="addNewDepartment"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -70,22 +70,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="" th:each="department : ${departments}">
+        <tr  th:each="department : ${departments}">
           <td scope="row" th:text="${department.id}"></td>
           <td th:text="${department.department_name}"></td>
           <td scope="row">
             <div class="btn-group">
-              <!-- Manage Employee -->
-              <button class="btn btn-outline-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-users-round-icon lucide-users-round">
-                  <path d="M18 21a8 8 0 0 0-16 0" />
-                  <circle cx="10" cy="8" r="5" />
-                  <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
-                </svg>
-              </button>
-              <!-- Edit Department -->
               <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
                 th:data-bs-target="'#updateModal_'+${department.id}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

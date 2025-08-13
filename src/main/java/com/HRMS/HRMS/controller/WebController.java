@@ -10,6 +10,10 @@ public class WebController implements WebMvcConfigurer{
     @Override
     
     public void addViewControllers(ViewControllerRegistry registry){
+        // Error
+        // registry.addViewController("/Error").setViewName("/error");
+        // registry.addViewController("/error").setViewName("/error");
+
         registry.addViewController("/login").setViewName("/user/login");
         registry.addViewController("/registration").setViewName("/user/registration");
         

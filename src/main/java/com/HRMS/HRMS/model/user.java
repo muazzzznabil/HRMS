@@ -2,6 +2,7 @@ package com.HRMS.HRMS.model;
 
 import com.HRMS.HRMS.Enums.RoleEnum;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -31,6 +33,21 @@ public class user {
 
     @NotNull
     private String full_name;
+
+
+    @Nullable
+    @ManyToOne
+    private Department department;
+
+
+    
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     public Long getUser_id() {
         return user_id;
@@ -72,6 +89,5 @@ public class user {
         this.role = role;
     }
 
-    // Todo : Add Department
 
 }
