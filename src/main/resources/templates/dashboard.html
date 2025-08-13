@@ -1,16 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-</head>
-<body>
-    <h1 th:inline="${text}">Welcome back ,<span sec:authentication="name">User</span>! </h1>
-    <a th:href="@{/test2}">go to next page</a>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+  <head
+    th:replace="~{fragments/bootstrap:: bootstrap('HRMS-Dashboard')}"
+  ></head>
+  <body class="container">
+    <div class="mt-5">
+      <h1>Welcome back ,<span sec:authentication="name">User</span>!</h1>
+      <h2>HRMS: Human Resources Management System</h2>
 
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
-    </form>
-</body>
+      <!-- Admin -->
+      <div class="my-5">
+        <nav class="nav">
+          <a class="nav-link active" aria-current="page" href="#"
+            >Department Maintenance</a
+          >
+          <a class="nav-link" href="#">User Maintenance</a>
+        </nav>
+      </div>
+
+      <form th:action="@{/logout}" method="post">
+        <button type="submit" class="btn btn-warning">
+          Logout
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-log-out-icon lucide-log-out"
+          >
+            <path d="m16 17 5-5-5-5" />
+            <path d="M21 12H9" />
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          </svg>
+        </button>
+      </form>
+    </div>
+  </body>
 </html>
