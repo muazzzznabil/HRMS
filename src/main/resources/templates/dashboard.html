@@ -16,10 +16,10 @@
       <div class="my-5">
         <!-- Admin -->
         <nav sec:authorize="hasRole('ROLE_ADMIN')" class="nav">
-          <a class="nav-link active" aria-current="page" href="#"
+          <a class="nav-link active"  th:href="@{/departments}"
             >Department Maintenance</a
           >
-          <a class="nav-link" href="#">User Maintenance</a>
+          <a class="nav-link active" href="#">User Maintenance</a>
         </nav>
         <!-- Admin -->
         <!-- Manager -->
@@ -30,7 +30,7 @@
         </nav>
         <!-- Manager -->
          <!-- Employee -->
-        <nav sec:authorize="hasRole('ROLE_MANAGER')" class= "nav">
+        <nav sec:authorize="hasRole('ROLE_EMPLOYEE')" class= "nav">
           <a class="nav-link active" aria-current="page" href="#"
             >Leave Application Listing</a
           >

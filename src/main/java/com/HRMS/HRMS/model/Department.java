@@ -20,6 +20,30 @@ public class Department {
     @NotNull
     private String department_name;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDepartment_name() {
+        return department_name;
+    }
+
+    public void setDepartment_name(String department_name) {
+        this.department_name = department_name;
+    }
+
+    public List<user> getUser() {
+        return user;
+    }
+
+    public void setUser(List<user> user) {
+        this.user = user;
+    }
+
     @Nullable
     @OneToMany
     private List<user> user;
