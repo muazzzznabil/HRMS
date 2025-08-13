@@ -13,14 +13,30 @@
       <h1>Welcome back ,<span sec:authentication="name">User</span>!</h1>
       <h2>HRMS: Human Resources Management System</h2>
 
-      <!-- Admin -->
       <div class="my-5">
-        <nav class="nav">
+        <!-- Admin -->
+        <nav sec:authorize="hasRole('ROLE_ADMIN')" class="nav">
           <a class="nav-link active" aria-current="page" href="#"
             >Department Maintenance</a
           >
           <a class="nav-link" href="#">User Maintenance</a>
         </nav>
+        <!-- Admin -->
+        <!-- Manager -->
+        <nav sec:authorize="hasRole('ROLE_MANAGER')" class= "nav">
+          <a class="nav-link active" aria-current="page" href="#"
+            >Leave Application Listing</a
+          >
+        </nav>
+        <!-- Manager -->
+         <!-- Employee -->
+        <nav sec:authorize="hasRole('ROLE_MANAGER')" class= "nav">
+          <a class="nav-link active" aria-current="page" href="#"
+            >Leave Application Listing</a
+          >
+          <a class="nav-link" href="#">Leave Application Form</a>
+        </nav>
+        <!-- Employee -->
       </div>
 
       <form th:action="@{/logout}" method="post">
