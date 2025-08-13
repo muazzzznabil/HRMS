@@ -1,8 +1,10 @@
 package com.HRMS.HRMS.config;
 
-import java.util.Collection;
 import java.util.Collections;
 
+import com.HRMS.HRMS.service.CustomUserDetailsService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,16 +21,25 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    // WebSecurityConfig(service.CustomUserDetailsService customUserDetailsService)
+    // {
+    // this.customUserDetailsService = customUserDetailsService;
+    // }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/h2-console/**", "/")
+                        .requestMatchers("/h2-console/**", "/login")
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .loginPage("/login")
+                        .defaultSuccessUrl("/dashboard", true)
                         .permitAll())
                 .logout((logout) -> logout.permitAll());
 
@@ -39,20 +50,8 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        String encodedPassword = passwordEncoder().encode("password");
-
-        UserDetails user = User
-                .withUsername("user")
-                .password(encodedPassword)
-                .roles("admin")
-                .build();
-
-        return new InMemoryUserDetailsManager(Collections.singleton(user));
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
