@@ -1,15 +1,22 @@
 package com.HRMS.HRMS.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-public class userController {
-    
-@RequestMapping("/user")
+import com.HRMS.HRMS.repository.UserRepository;
 
-@PostMapping("/login")
-public String login(){
-    return "sadsa"; //todo: fix
-}
+public class userController {
+
+    @Autowired
+    UserRepository userRepository;
+
+    // @RequestMapping("/user")
+
+    @PostMapping("/login")
+    public void login() {
+
+       userRepository.findByUsername(null);
+    }
 
 }
