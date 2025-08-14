@@ -15,14 +15,17 @@ public class DataInit implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final InitialAdminProperties initialAdminProperties;
     private final initialEmployeeProperties initialEmployeeProperties;
+    private final initialManagerProperties initialManagerProperties;
+
     
 
     public DataInit(UserRepository userRepository, PasswordEncoder passwordEncoder,
-            InitialAdminProperties initialAdminProperties, initialEmployeeProperties initialEmployeeProperties) {
+            InitialAdminProperties initialAdminProperties, initialEmployeeProperties initialEmployeeProperties,initialManagerProperties InitialManagerProperties) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.initialAdminProperties = initialAdminProperties;
         this.initialEmployeeProperties = initialEmployeeProperties;
+        this.initialManagerProperties = InitialManagerProperties;
     }
 
     @Override
@@ -41,6 +44,13 @@ public class DataInit implements CommandLineRunner {
             employeeUser.setRole(RoleEnum.ROLE_EMPLOYEE);
             employeeUser.setFull_name("Employee");
             userRepository.save(employeeUser);
+        } if (userRepository.findByUsername(initialManagerProperties.getUsername()).isEmpty()) {
+            user managerUser = new user();
+            managerUser.setUsername(initialManagerProperties.getUsername());
+            managerUser.setPassword(passwordEncoder.encode(initialManagerProperties.getPassword()));
+            managerUser.setRole(RoleEnum.ROLE_MANAGER);
+            managerUser.setFull_name("Manager");
+            userRepository.save(managerUser);
         }
 
     }

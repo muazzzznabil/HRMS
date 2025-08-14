@@ -53,6 +53,31 @@ public class userController {
         return ("redirect:/user");
     }
 
+    // Delete User
+    @PostMapping("/user/delete")
+    public String deleteDepartments(@RequestParam Long user_id) {
+        userRepository.deleteById(user_id);
+        return ("redirect:/user");
+    }
+
+    //Update User
+    @PostMapping("/user/update")
+    public String updateUser(@ModelAttribute user User) {
+        
+        user existingUser = userRepository.findById(User.getUser_id()).orElseThrow();
+        
+        existingUser.setUsername(User.getUsername());
+        existingUser.setFull_name(User.getFull_name());
+        existingUser.setDepartment(User.getDepartment());
+        existingUser.setRole(User.getRole());
+
+        userRepository.save(existingUser);
+        
+
+        return ("redirect:/user");
+    }
+    
+
     @GetMapping("/login")
     public String login() {
         return "user/login";

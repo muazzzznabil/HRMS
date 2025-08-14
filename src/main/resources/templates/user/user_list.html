@@ -66,20 +66,21 @@
                                     <div class="form-group column mb-2">
                                         <label for="role" class="col-sm-2 col-form-label">Roles</label>
                                         <div class="col-sm-10">
-                                            <!-- <select name="role" id="role" class="form-control custom-select"
-                                                th:field="*{Roles.RoleEnum}">
+                                            <select name="role" id="role" class="form-select"
+                                                >
+                                                <option value="" disable hidden selected>Select user role</option>
                                                 <option
-                                                th:each="value : ${T(com.HRMS.HRMS.Enum.RoleEnum).values()}"
-                                                th:value="${value}"
-                                                th:text="${value}">
+                                                th:each="role : ${Roles}"
+                                                th:value="${role}"
+                                                th:text="${role.label}">
                                                 </option>
-                                            </select> -->
-                                            <select name="role" id="role" class="form-select">
+                                            </select>
+                                            <!-- <select name="role" id="role" class="form-select">
                                                 <option value="" disable hidden selected>Select user role</option>
                                                 <option value="ROLE_ADMIN">Admin</option>
                                                 <option value="ROLE_MANAGER">Manager</option>
                                                 <option value="ROLE_EMPLOYEE">Employee</option>
-                                            </select>
+                                            </select> -->
                                         </div>
                                     </div>
                                     <div class="form-group column mb-2">
@@ -110,6 +111,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th scope="col">User id</th>
                 <th scope="col">Full Name</th>
                 <th scope="col">Username</th>
                 <th scope="col">Department</th>
@@ -119,15 +121,18 @@
         </thead>
         <tbody>
             <tr th:each="user : ${users}">
+                <td th:text="${user.user_id}"></td>
                 <td th:text="${user.full_name}"></td>
                 <td th:text="${user.username}"></td>
                 <td th:text="${user.department?.department_name}"></td>
-                <!-- <td th:text="${user.role} == ROLE_ADMIN?: (Admin :${user.role} == ROLE_EMPLOYEE? Employee:Manager)" ></td> -->
-                <td th:text="${user.role == 'ROLE_ADMIN' ? 'Admin' : (user.role == 'ROLE_EMPLOYEE' ? 'Employee' : 'Manager')}"></td>
+                <td
+                    th:text="${user.role.toString == 'ROLE_ADMIN' ? 'Admin' : (user.role.toString== 'ROLE_EMPLOYEE' ? 'Employee' : 'Manager')}">
+                </td>
 
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-outline-warning">
+                        <button class="btn btn-outline-warning" th:data-bs-target="'#updateModal'+${user.username}"
+                            data-bs-toggle="modal">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-user-round-pen-icon lucide-user-round-pen">
@@ -137,7 +142,94 @@
                                 <circle cx="10" cy="8" r="5" />
                             </svg>
                         </button>
-                        <button class="btn btn-outline-danger">
+                        <!-- Modal Update User -->
+                        <div class="modal fade" th:id="'updateModal'+${user.username}" tabindex="-1" role="dialog"
+                            aria-labelledby="'updateModal'+${user.username}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-warning" id="exampleModalLongTitle"> <svg
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-triangle-alert-icon lucide-triangle-alert mx-1">
+                                                <path
+                                                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                                <path d="M12 9v4" />
+                                                <path d="M12 17h.01" />
+                                            </svg>Update User Information</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body ">
+                                        <div class="d-flex justify-content-center flex-column ">
+                                            <form method="post" th:action="@{/user/update}" th:object="${user}">
+                                                <form>
+                                                    <div class="form-group column mb-2">
+                                                        <label for="username"
+                                                            class="col-sm-2 col-form-label">Username</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="username"
+                                                                placeholder="Username" name="username"
+                                                                th:value="${user.username}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group column ">
+                                                        <label for="full_name" class="col-sm-2 col-form-label">Full
+                                                            Name</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="full_name"
+                                                                placeholder="Full Name" name="full_name"
+                                                                th:value="${user.full_name}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group column mb-2">
+                                                        <label for="role" class="col-sm-2 col-form-label">Roles</label>
+                                                        <div class="col-sm-10">
+                                                            <select name="role" id="role"
+                                                                class="form-select">
+                                                                <option th:each="role : ${Roles}"
+                                                                    th:value="${role}"
+                                                                    th:text="${role.label}"
+                                                                    th:selected="${role== user?.role}"
+                                                                    >
+                                                                    
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group column mb-2">
+                                                        <label for="role"
+                                                            class="col-sm-2 col-form-label">Department</label>
+                                                        <div class="col-sm-10">
+                                                            <select name="department" id="department"
+                                                                class="form-select" th:value="${user.department}">
+                                                                <option value="" disable hidden>Select
+                                                                    Department</option>
+                                                                <option th:each="dept : ${departmentList}"
+                                                                    th:value="${dept.id}"
+                                                                    th:text="${dept.department_name}"
+                                                                    th:selected="${dept.id == user.department?.id }">
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <form th:action="@{/user/update}" method="post">
+                                            <input type="hidden" name="user_id" th:value="${user.user_id}">
+                                            <button type="submit" class="btn btn-warning">Confirm</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-danger" th:attr="data-bs-target='#deleteModal_'+${user.user_id}"
+                            data-bs-toggle="modal">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-user-round-x-icon lucide-user-round-x">
@@ -147,9 +239,44 @@
                                 <path d="m22 17-5 5" />
                             </svg>
                         </button>
+                        <!-- Modal Delete User -->
+                        <div class="modal fade" th:id="'deleteModal_'+${user.user_id}" tabindex="-1" role="dialog"
+                            aria-labelledby="deleteModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-danger" id="exampleModalLongTitle"> <svg
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-triangle-alert-icon lucide-triangle-alert mx-1">
+                                                <path
+                                                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                                <path d="M12 9v4" />
+                                                <path d="M12 17h.01" />
+                                            </svg>Delete Confirmation</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure to delete user : <span th:text="${user.full_name}"
+                                                class="fw-bold"></span>
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <form th:action="@{/user/delete}" method="post">
+                                            <input type="hidden" name="user_id" th:value="${user.user_id}">
+                                            <button type="submit" class="btn btn-danger">Confirm</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </td>
-                <!-- <td>Test</td> -->
             </tr>
         </tbody>
     </table>

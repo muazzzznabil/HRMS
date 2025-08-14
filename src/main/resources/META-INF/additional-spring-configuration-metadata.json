@@ -8,5 +8,31 @@
     "name": "default-admin.username",
     "type": "java.lang.String",
     "description": "default admin password"
+  },
+  {
+    "name": "default-manager.password",
+    "type": "java.lang.String",
+    "description": "A description for 'default-manager.password'"
+  },
+{
+    "name": "default-employee.username",
+    "type": "java.lang.String",
+    "description": "A description for 'default-employee.username'"
+  },
+{
+    "name": "default-employee.password",
+    "type": "java.lang.String",
+    "description": "A description for 'default-employee.password'"
   }
+
 ]}
+
+
+
+
+
+
+
+
+
+
