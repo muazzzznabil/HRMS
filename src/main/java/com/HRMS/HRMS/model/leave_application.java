@@ -6,6 +6,8 @@ import com.HRMS.HRMS.Enums.LeaveStatusEnum;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,7 +22,9 @@ public class leave_application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applicationId;
 
+
     @NotNull
+    @Enumerated(EnumType.STRING)
     private LeaveStatusEnum application_status;
 
     @NotNull
@@ -40,7 +44,7 @@ public class leave_application {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    private user employee_user;
+    private user employeeUser;
 
 
     public Long getApplicationId() {
@@ -99,15 +103,15 @@ public class leave_application {
         this.endDate = endDate;
     }
 
-    public user getEmployee_user() {
-        return employee_user;
+    public user getEmployeeUser() {
+        return employeeUser;
     }
 
-    public void setEmployee_user(user employee_user) {
-        this.employee_user = employee_user;
+    public void setEmployeeUser(user employeeUser) {
+        this.employeeUser = employeeUser;
     }
 
-  
+
 
     
 

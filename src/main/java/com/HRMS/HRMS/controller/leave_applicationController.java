@@ -1,7 +1,11 @@
 package com.HRMS.HRMS.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
-
 @Controller
-public class leave_applicationController  {
-    
+public class leave_applicationController {
+
     @Autowired
     leaveApplicationRepository leaveApplicationRepository;
 
@@ -42,24 +43,39 @@ public class leave_applicationController  {
     }
 
     @RequestMapping("/leave-application-list/employee")
-    public String listLeaveApplication(){
+    public String listLeaveApplication(Model model) {
 
-        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        // model.addAttribute("username", currentPrincipalName);
+
+        user findUser = userRepository.findByUsername(currentPrincipalName).orElseThrow();
+        List<leave_application> application_list = leaveApplicationRepository.findByEmployeeUser(findUser);
+
+        model.addAttribute("application_list", application_list);
 
         return ("/leave_application/la_list");
     }
-    
 
     @PostMapping("/leave-application")
-    public String addLeaveApplication(@ModelAttribute leave_application leave_application , @RequestParam String username) {
+    public String addLeaveApplication(@ModelAttribute leave_application leave_application,
+            @RequestParam String username) {
 
-        user findUser = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found") );
+        user findUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        leave_application.setEmployee_user(findUser);
-
+        leave_application.setEmployeeUser(findUser);
 
         leaveApplicationRepository.save(leave_application);
-        return ("redirect:/");
+        return ("redirect:/leave-application-list/employee");
+    }
+
+    @PostMapping("/leave-application/delete")
+    public String deleteLeaveApplication(@RequestParam Long applicationId) {
+        
+        
+
+        return ("redirect:/leave-application-list/employee");
     }
     
 

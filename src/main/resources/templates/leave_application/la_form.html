@@ -48,7 +48,7 @@
             <div class="d-flex justify-content-end">
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
-            <input type="hidden" name="application_status" id="application_status" th:value="${pendingStatus.PENDING}">
+            <input type="hidden" name="application_status" id="application_status" th:value="${pendingStatus}">
             <input type="hidden" name="username" th:value="${#authentication.name}">
         
         </form>

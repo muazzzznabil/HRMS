@@ -1,11 +1,112 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head th:replace="~{fragments/bootstrap:: bootstrap('HRMS-Leave Application List')}"></head>
 
 
 <body class="container my-5">
     <h1>Leave Application List</h1>
+
+    <div class="d-flex justify-content-end my-3">
+        <a href="/leave-application-form" class="btn btn-success align-items-end"> <svg
+                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-file-plus2-icon lucide-file-plus-2 me-1">
+                <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" />
+                <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                <path d="M3 15h6" />
+                <path d="M6 12v6" />
+            </svg>Add New Application
+        </a>
+    </div>
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr class="text-center">
+                <th sec:authorize="hasRole('ROLE_MANAGER')"></th>
+                <th scope="col">Reason</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Status</th>
+                <th class=" text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="app : ${application_list}" class="text-center">
+                <td sec:authorize="hasRole('ROLE_MANAGER')"></td>
+                <td th:text="${app.reason}"></td>
+                <td th:text="${app.startDate}"></td>
+                <td th:text="${app.endDate}"></td>
+                <td>
+                    <!-- <p th:text="${app.application_status.label}" class="badge" th:classappend="${app.application_status.label == 'Pending'} ? 'bg-warning' :
+                (app.application_status.label == 'Approved' ? 'bg-success' :
+                (app.application_status.label == 'Rejected' ? 'bg-danger' : 'bg-info'))">
+                    </p> -->
+                    <p th:if="${app.application_status.label == 'Pending'}" th:text="${app.application_status.label}"
+                        class="badge bg-warning"></p>
+                    <p th:if="${app.application_status.label == 'Rejected'}" th:text="${app.application_status.label}"
+                        class="badge bg-danger"></p>
+                    <p th:if="${app.application_status.label == 'Approved'}" th:text="${app.application_status.label}"
+                        class="badge bg-success"></p>
+                    <p th:if="${app.application_status.label == 'Appealed'}" th:text="${app.application_status.label}"
+                        class="badge bg-info"></p>
+
+
+                </td>
+                <td class="text-center">
+                    <div class="btn-group">
+                        <button class="btn btn-outline-danger" sec:authorize="hasRole('ROLE_MANAGER')">Reject</button>
+                        <button class="btn btn-outline-success" sec:authorize="hasRole('ROLE_MANAGER')">Approve</button>
+                        <button class="btn btn-primary" th:attr="disabled=${app.application_status.label != 'Rejected'}"
+                            sec:authorize="hasRole('ROLE_EMPLOYEE')">
+                            Appeal
+                        </button>
+                        <button class="btn btn-outline-danger" sec:authorize="hasRole('ROLE_EMPLOYEE')"
+                            th:attr="data-bs-target='#deleteModal_'+${app.applicationId}"
+                            data-bs-toggle="modal">Cancel</button>
+                            <!-- Modal Cancel Application -->
+                        <div class="modal fade" th:id="'deleteModal_'+${app.applicationId}" tabindex="-1" role="dialog"
+                            aria-labelledby="deleteModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-danger" id="exampleModalLongTitle"> <svg
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-triangle-alert-icon lucide-triangle-alert mx-1">
+                                                <path
+                                                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                                <path d="M12 9v4" />
+                                                <path d="M12 17h.01" />
+                                            </svg>Cancel Confirmation</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure to cancel the leave application?
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <form  method="post" th:action="@{/leave-application/delete}">
+                                            <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                                            <button type="submit" class="btn btn-danger">Confirm</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
 </body>
 
 </html>
