@@ -37,6 +37,7 @@ public class userController {
         List<Department> deptList = departmentRepository.findAll();
         List<user> userList = userRepository.findAll();
         RoleEnum[] roles = RoleEnum.values();
+
         model.addAttribute("Roles", roles);
         model.addAttribute("departmentList", deptList);
         model.addAttribute("users", userList);
@@ -60,23 +61,21 @@ public class userController {
         return ("redirect:/user");
     }
 
-    //Update User
+    // Update User
     @PostMapping("/user/update")
     public String updateUser(@ModelAttribute user User) {
-        
+
         user existingUser = userRepository.findById(User.getUser_id()).orElseThrow();
-        
+
         existingUser.setUsername(User.getUsername());
         existingUser.setFull_name(User.getFull_name());
         existingUser.setDepartment(User.getDepartment());
         existingUser.setRole(User.getRole());
 
         userRepository.save(existingUser);
-        
 
         return ("redirect:/user");
     }
-    
 
     @GetMapping("/login")
     public String login() {

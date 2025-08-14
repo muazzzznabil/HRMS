@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+    xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/bootstrap :: bootstrap('HRMS-Leave Application Form')}"></head>
+
+<style>
+    .bg-grey-200 {
+        background-color: #F3F4F6;
+    }
+</style>
+
+
+
+
+<body class="container my-5">
+    <h1>Leave Application Form</h1>
+
+    <div class="m-5 bg-grey-200 rounded-3 py-2 px-3">
+        <form th:action="@{/leave-application}" method="post">
+            <label class="form-label fw-bold">Leaving Date</label>
+            <div class="row mb-lg-3 align-items-center">
+                <div class="col-1">
+                    <label for="startDate">Start Date</label>
+                </div>
+                <div class="col">
+                    <input type="date" class="form-control" id="startDate" name="startDate">
+                </div>
+                <div class="col-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-move-right-icon lucide-move-right">
+                        <path d="M18 8L22 12L18 16" />
+                        <path d="M2 12H22" />
+                    </svg>
+                </div>
+                <div class="col-1">
+                    <label for="endDate">End Date</label>
+                </div>
+                <div class="col">
+                    <input type="date" class="form-control" id="endDate" name="endDate">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="reason" class="form-label fw-bold">Leave Reason</label>
+                <Textarea class="form-control" name="reason"></Textarea>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+            <input type="hidden" name="application_status" id="application_status" th:value="${pendingStatus.PENDING}">
+            <input type="hidden" name="username" th:value="${#authentication.name}">
+        
+        </form>
+    </div>
+
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const startDate = document.getElementById("startDate")
+        const endDate = document.getElementById("endDate")
+        let today = new Date().toISOString().split("T")[0];
+        startDate.min = today;
+
+        startDate.addEventListener('change', function () {
+            endDate.setAttribute("min", this.value)
+        })
+    })
+
+
+
+</script>
+
+
+
+
+
+</html>

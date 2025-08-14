@@ -13,9 +13,9 @@
       <!-- Admin -->
       <nav sec:authorize="hasRole('ROLE_ADMIN')" class="nav">
         <a class="nav-link active" th:href="@{/departments}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20"
-            height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" class="lucide lucide-house-plus-icon lucide-house-plus">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-house-plus-icon lucide-house-plus">
             <path
               d="M12.662 21H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v2.475" />
             <path d="M14.959 12.717A1 1 0 0 0 14 12h-4a1 1 0 0 0-1 1v8" />
@@ -23,9 +23,9 @@
             <path d="M18 15v6" />
           </svg> Department Maintenance</a>
         <a class="nav-link active" th:href="@{/user}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" class="lucide lucide-users-round-icon lucide-users-round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-users-round-icon lucide-users-round">
             <path d="M18 21a8 8 0 0 0-16 0" />
             <circle cx="10" cy="8" r="5" />
             <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
@@ -39,8 +39,21 @@
       <!-- Manager -->
       <!-- Employee -->
       <nav sec:authorize="hasRole('ROLE_EMPLOYEE')" class="nav">
-        <a class="nav-link active" aria-current="page" href="#">Leave Application Listing</a>
-        <a class="nav-link" href="#">Leave Application Form</a>
+        <a class="nav-link active" aria-current="page" href="/leave-application-list/employee"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+            height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="lucide lucide-files-icon lucide-files me-1">
+            <path d="M15 2a2 2 0 0 1 1.414.586l4 4A2 2 0 0 1 21 8v7a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+            <path d="M15 2v4a2 2 0 0 0 2 2h4" />
+            <path d="M5 7a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 1.732-1" />
+          </svg>Leave Application Listing</a>
+        <a class="nav-link" href="/leave-application-form"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-file-plus2-icon lucide-file-plus-2 me-1">
+            <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" />
+            <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+            <path d="M3 15h6" />
+            <path d="M6 12v6" />
+          </svg>Leave Application Form</a>
       </nav>
       <!-- Employee -->
     </div>

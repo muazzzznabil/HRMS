@@ -20,7 +20,8 @@ public class WebController implements WebMvcConfigurer{
         // Dashboard
         registry.addViewController("/").setViewName("dashboard");
     
-        // Department
+        // Leave Application Form
+        // registry.addViewController("/leave-application-form").setViewName("/leave_application/la_form");
         
     
     
