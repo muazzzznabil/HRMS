@@ -126,14 +126,14 @@
                                         </p>
 
                                         <form method="post" th:action="@{/leave-application/reject}">
-                                            <textarea name="rejectReason" id="rejectReason" class="form-control"
+                                            <textarea name="rejectReason" id="rejectReason" class="form-control" required
                                                 placeholder="Rejection Reason"></textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary"
                                             data-bs-dismiss="modal">Close</button>
 
-                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}" required>
                                         <button type="submit" class="btn btn-danger">Confirm</button>
                                         </form>
                                     </div>
@@ -142,7 +142,7 @@
                         </div>
                         <form th:action="@{/leave-application/approve}" method="post"
                             sec:authorize="hasRole('ROLE_MANAGER')">
-                            <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                            <input type="hidden" name="applicationId" th:value="${app.applicationId}" required>
                             <button class="btn btn-outline-success"
                                 th:attr="disabled=${app.application_status.label == 'Approved' or app.application_status.label == 'Rejected'}"
                                 sec:authorize="hasRole('ROLE_MANAGER')">Approve</button>
@@ -178,14 +178,14 @@
                                         </p>
 
                                         <form method="post" th:action="@{/leave-application/appeal}">
-                                            <textarea name="appealReason" id="appealReason" class="form-control"
+                                            <textarea name="appealReason" id="appealReason" class="form-control" required
                                                 placeholder="Appeal Reason"></textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
 
-                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}" required>
                                         <button type="submit" class="btn btn-primary">Appeal</button>
                                         </form>
                                     </div>
@@ -223,7 +223,7 @@
                                         <button type="button" class="btn btn-primary"
                                             data-bs-dismiss="modal">Close</button>
                                         <form method="post" th:action="@{/leave-application/delete}">
-                                            <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                                            <input type="hidden" name="applicationId" th:value="${app.applicationId}" required>
                                             <button type="submit" class="btn btn-danger">Confirm</button>
                                         </form>
                                     </div>

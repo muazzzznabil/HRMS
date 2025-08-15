@@ -25,7 +25,7 @@
                     <label for="startDate">Start Date</label>
                 </div>
                 <div class="col">
-                    <input type="date" class="form-control" id="startDate" name="startDate">
+                    <input type="date" class="form-control" id="startDate" name="startDate" required>
                 </div>
                 <div class="col-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -39,18 +39,18 @@
                     <label for="endDate">End Date</label>
                 </div>
                 <div class="col">
-                    <input type="date" class="form-control" id="endDate" name="endDate">
+                    <input type="date" class="form-control" id="endDate" name="endDate" required>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="reason" class="form-label fw-bold">Leave Reason</label>
-                <Textarea class="form-control" name="reason"></Textarea>
+                <Textarea class="form-control" name="reason" required></Textarea>
             </div>
             <div class="d-flex justify-content-end">
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
-            <input type="hidden" name="application_status" id="application_status" th:value="${pendingStatus}">
-            <input type="hidden" name="username" th:value="${#authentication.name}">
+            <input type="hidden" name="application_status" id="application_status" th:value="${pendingStatus}" required>
+            <input type="hidden" name="username" th:value="${#authentication.name}" required>
         
         </form>
     </div>

@@ -43,7 +43,7 @@
             <div class="d-flex justify-content-center">
               <form method="post" th:action="@{/departments}" th:object="${Department}">
                 <label for="department_name">Department Name : </label>
-                <input type="text" name="department_name" id="department_name">
+                <input  required type="text" name="department_name" id="department_name" >
             </div>
           </div>
           <div class="modal-footer">
@@ -106,9 +106,9 @@
                       <div class="d-flex justify-content-center">
                         <form method="post" th:action="@{/departments/update}" th:object="${Department}">
                           <label for="department_name">Department Name : </label>
-                          <input type="text" name="department_name" id="department_name"
+                          <input type="text" name="department_name" id="department_name" required
                             th:value="${department.department_name}">
-                          <input type="hidden" name="department_id" th:value="${department.id}">
+                          <input type="hidden" name="department_id" th:value="${department.id}" required>
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -155,7 +155,7 @@
                     <div class="modal-footer">
                       <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                       <form th:action="@{/departments/delete}" method="post">
-                        <input type="hidden" name="department_id" th:value="${department.id}">
+                        <input type="hidden" name="department_id" th:value="${department.id}" required>
                         <button type="submit" class="btn btn-danger">Confirm</button>
                       </form>
                     </div>

@@ -73,22 +73,7 @@ public class leave_applicationController {
 
         return ("/leave_application/la_list");
     }
-
-    // // Manager List View
-    // @RequestMapping("/leave-application-list/manager")
-    // public String listLeaveApplicationManager(Model model, @RequestParam String
-    // username) {
-
-    // user findUser = userRepository.findByUsername(username).orElseThrow();
-    // Department dept = findUser.getDepartment();
-
-    // List<leave_application> application_list =
-    // leaveApplicationRepository.findByEmployeeUser_department(dept);
-    // model.addAttribute("application_list", application_list);
-
-    // return ("/leave_application/la_list");
-    // }
-
+    
     @PostMapping("/leave-application")
     public String addLeaveApplication(@ModelAttribute leave_application leave_application,
             @RequestParam String username) {
