@@ -85,6 +85,9 @@
                                         <div class="col-sm-10">
                                             <select name="department" id="department" class="form-select" required>
                                                 <option value="" disable hidden selected>Select Department</option>
+                                                <option value="" disable hidden selected
+                                                    th:if="${#lists.isEmpty(departmentList)}">There is no department
+                                                    registered yet!</option>
                                                 <option th:each="dept : ${departmentList}" th:value="${dept.id}"
                                                     th:text="${dept.department_name}"></option>
                                             </select>
@@ -199,8 +202,11 @@
                                                     <div class="col-sm-10">
                                                         <select name="department" id="department" class="form-select"
                                                             required th:value="${user.department}">
-                                                            <option value="" disable hidden>Select
+                                                            <option  disable hidden select>Select
                                                                 Department</option>
+                                                            <option  disable hidden select
+                                                                th:if="${#lists.isEmpty(departmentList)}">There is no
+                                                                department registered yet!</option>
                                                             <option th:each="dept : ${departmentList}"
                                                                 th:value="${dept.id}" th:text="${dept.department_name}"
                                                                 th:selected="${dept.id == user.department?.id }">

@@ -1,7 +1,5 @@
 package com.HRMS.HRMS.config;
 
-
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 
 @Configuration
 @EnableWebSecurity
@@ -20,10 +17,12 @@ public class WebSecurityConfig {
 
         http
                 .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/user/**","/departments/**").hasRole("ADMIN")
-                .requestMatchers("/leave-application-list/employee","/leave-application-form").hasRole("EMPLOYEE")
-                .requestMatchers("/leave-application-list/manager").hasRole("MANAGER")
-                .requestMatchers("/leave-application-list/**").hasAnyRole("MANAGER","EMPLOYEE")
+                        .requestMatchers("/user/**", "/departments/**").hasRole("ADMIN")
+                        .requestMatchers("/leave-application-list/employee", "/leave-application-form",
+                                "/leave-application/appeal")
+                        .hasRole("EMPLOYEE")
+                        .requestMatchers("/leave-application-list/manager").hasRole("MANAGER")
+                        .requestMatchers("/leave-application-list/**").hasAnyRole("MANAGER", "EMPLOYEE")
                         .requestMatchers("/h2-console/**", "/login")
                         .permitAll()
                         .anyRequest().authenticated())
@@ -36,6 +35,7 @@ public class WebSecurityConfig {
         http.headers().frameOptions().disable();
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

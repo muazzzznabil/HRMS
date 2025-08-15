@@ -127,7 +127,7 @@ public class leave_applicationController {
 
         leaveApplicationRepository.save(findApp);
 
-        return ("redirect:/leave-application-list/manager");
+        return ("redirect:/leave-application-list/employee");
     }
 
 }
