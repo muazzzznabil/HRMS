@@ -6,9 +6,9 @@
 
 
 <body class="container my-5">
-    <h1>Leave Application List</h1>
+    <h1 class="my-5">Leave Application List</h1>
 
-    <div class="d-flex justify-content-end my-3">
+    <div class="d-flex justify-content-end my-3" sec:authorize="hasRole('ROLE_EMPLOYEE')">
         <a href="/leave-application-form" class="btn btn-success align-items-end"> <svg
                 xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
