@@ -33,6 +33,9 @@
             </tr>
         </thead>
         <tbody>
+            <tr th:if="${#lists.isEmpty(application_list)}" class="text-center">
+                <td colspan="5">There is no leave application made yet!</td>
+            </tr>
             <tr th:each="app : ${application_list}" class="text-center">
                 <td sec:authorize="hasRole('ROLE_MANAGER')" th:text="${app.employeeUser.full_name}"></td>
                 <td th:text="${app.reason}"></td>
@@ -126,14 +129,15 @@
                                         </p>
 
                                         <form method="post" th:action="@{/leave-application/reject}">
-                                            <textarea name="rejectReason" id="rejectReason" class="form-control" required
-                                                placeholder="Rejection Reason"></textarea>
+                                            <textarea name="rejectReason" id="rejectReason" class="form-control"
+                                                required placeholder="Rejection Reason"></textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary"
                                             data-bs-dismiss="modal">Close</button>
 
-                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}" required>
+                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}"
+                                            required>
                                         <button type="submit" class="btn btn-danger">Confirm</button>
                                         </form>
                                     </div>
@@ -178,14 +182,15 @@
                                         </p>
 
                                         <form method="post" th:action="@{/leave-application/appeal}">
-                                            <textarea name="appealReason" id="appealReason" class="form-control" required
-                                                placeholder="Appeal Reason"></textarea>
+                                            <textarea name="appealReason" id="appealReason" class="form-control"
+                                                required placeholder="Appeal Reason"></textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
 
-                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}" required>
+                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}"
+                                            required>
                                         <button type="submit" class="btn btn-primary">Appeal</button>
                                         </form>
                                     </div>
@@ -223,7 +228,8 @@
                                         <button type="button" class="btn btn-primary"
                                             data-bs-dismiss="modal">Close</button>
                                         <form method="post" th:action="@{/leave-application/delete}">
-                                            <input type="hidden" name="applicationId" th:value="${app.applicationId}" required>
+                                            <input type="hidden" name="applicationId" th:value="${app.applicationId}"
+                                                required>
                                             <button type="submit" class="btn btn-danger">Confirm</button>
                                         </form>
                                     </div>

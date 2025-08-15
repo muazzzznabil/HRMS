@@ -45,8 +45,8 @@
                                     <div class="form-group column mb-2">
                                         <label for="username" class="col-sm-2 col-form-label">Username</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="username" placeholder="Username" required
-                                                name="username">
+                                            <input type="text" class="form-control" id="username" placeholder="Username"
+                                                required name="username">
                                         </div>
                                     </div>
                                     <div class="form-group column mb-2">
@@ -117,6 +117,9 @@
             </tr>
         </thead>
         <tbody>
+            <tr th:if="${#lists.isEmpty(users)}" class="text-center">
+                <td colspan="6">There is no users registered yet!</td>
+            </tr>
             <tr th:each="user : ${users}">
                 <td th:text="${user.user_id}"></td>
                 <td th:text="${user.full_name}"></td>
@@ -194,8 +197,8 @@
                                                 <div class="form-group column mb-2">
                                                     <label for="role" class="col-sm-2 col-form-label">Department</label>
                                                     <div class="col-sm-10">
-                                                        <select name="department" id="department" class="form-select" required
-                                                            th:value="${user.department}">
+                                                        <select name="department" id="department" class="form-select"
+                                                            required th:value="${user.department}">
                                                             <option value="" disable hidden>Select
                                                                 Department</option>
                                                             <option th:each="dept : ${departmentList}"

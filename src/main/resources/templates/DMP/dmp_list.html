@@ -43,7 +43,7 @@
             <div class="d-flex justify-content-center">
               <form method="post" th:action="@{/departments}" th:object="${Department}">
                 <label for="department_name">Department Name : </label>
-                <input  required type="text" name="department_name" id="department_name" >
+                <input required type="text" name="department_name" id="department_name">
             </div>
           </div>
           <div class="modal-footer">
@@ -70,7 +70,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr  th:each="department : ${departments}">
+        <tr th:if="${#lists.isEmpty(departments)}" class="text-center">
+          <td colspan="3">There is no departments registered yet!</td>
+        </tr>
+        <tr th:each="department : ${departments}">
           <td scope="row" th:text="${department.id}"></td>
           <td th:text="${department.department_name}"></td>
           <td scope="row">
