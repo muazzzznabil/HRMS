@@ -21,13 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
-
-    // WebSecurityConfig(service.CustomUserDetailsService customUserDetailsService)
-    // {
-    // this.customUserDetailsService = customUserDetailsService;
-    // }
+ 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

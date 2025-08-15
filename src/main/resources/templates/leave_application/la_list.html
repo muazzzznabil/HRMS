@@ -32,7 +32,7 @@
                 <th class=" text-center">Action</th>
             </tr>
         </thead>
-        <tbody> 
+        <tbody>
             <tr th:each="app : ${application_list}" class="text-center">
                 <td sec:authorize="hasRole('ROLE_MANAGER')" th:text="${app.employeeUser.full_name}"></td>
                 <td th:text="${app.reason}"></td>
@@ -45,33 +45,156 @@
                     </p> -->
                     <p th:if="${app.application_status.label == 'Pending'}" th:text="${app.application_status.label}"
                         class="badge bg-warning"></p>
-                    <p th:if="${app.application_status.label == 'Rejected'}" th:text="${app.application_status.label}"
-                        class="badge bg-danger"></p>
-                    <p th:if="${app.application_status.label == 'Approved'}" th:text="${app.application_status.label}"
-                        class="badge bg-success"></p>
-                    <p th:if="${app.application_status.label == 'Appealed'}" th:text="${app.application_status.label}"
-                        class="badge bg-info"></p>
 
+                    <p th:if="${app.application_status.label == 'Rejected'}" th:text="${app.application_status.label}"
+                        class="badge bg-danger" role="button" data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#rejectReasonModal_' + app.applicationId}">
+                    </p>
+                    <!-- Modal Reject Reason-->
+                    <div class="modal fade" th:id="'rejectReasonModal_' + ${app.applicationId}" tabindex="-1"
+                        role="dialog" aria-labelledby="rejectReason" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-danger">Rejection reason</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-start" th:text="${app.reject_reason}"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${app.application_status.label == 'Approved'}" th:text="${app.application_status.label}"
+                        class="badge bg-success"></div>
+                    <p th:if="${app.application_status.label == 'Appealed'}" th:text="${app.application_status.label}"
+                        class="badge bg-info" role="button" data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#appealReasonModal_' + app.applicationId}">
+                    </p>
+                    <!-- Modal Appeal Reason-->
+                    <div class="modal fade" th:id="'appealReasonModal_' + ${app.applicationId}" tabindex="-1"
+                        role="dialog" aria-labelledby="appealReason" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-primary">Appeal reason</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-start" th:text="${app.appeal_reason}"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
                         <button class="btn btn-outline-danger" sec:authorize="hasRole('ROLE_MANAGER')"
-                            th:attr="disabled=${app.application_status.label == 'Approved'}">Reject</button>
+                            th:attr="disabled=${app.application_status.label == 'Approved' or app.application_status.label == 'Rejected'}, data-bs-target='#rejectModal_'+${app.applicationId} "
+                            data-bs-toggle="modal">Reject</button>
+                        <!-- Modal Reject Application -->
+                        <div class="modal fade" th:id="'rejectModal_'+${app.applicationId}" tabindex="-1" role="dialog"
+                            aria-labelledby="rejectModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-danger" id="exampleModalLongTitle"> <svg
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-triangle-alert-icon lucide-triangle-alert mx-1">
+                                                <path
+                                                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                                <path d="M12 9v4" />
+                                                <path d="M12 17h.01" />
+                                            </svg>Reject Confirmation : <span
+                                                th:text="${app.employeeUser.full_name}">User</span> </h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-start">Are you sure to Reject the leave application?
+                                        </p>
+
+                                        <form method="post" th:action="@{/leave-application/reject}">
+                                            <textarea name="rejectReason" id="rejectReason" class="form-control"
+                                                placeholder="Rejection Reason"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                            data-bs-dismiss="modal">Close</button>
+
+                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                                        <button type="submit" class="btn btn-danger">Confirm</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <form th:action="@{/leave-application/approve}" method="post"
                             sec:authorize="hasRole('ROLE_MANAGER')">
                             <input type="hidden" name="applicationId" th:value="${app.applicationId}">
                             <button class="btn btn-outline-success"
-                                th:attr="disabled=${app.application_status.label == 'Approved'}"
+                                th:attr="disabled=${app.application_status.label == 'Approved' or app.application_status.label == 'Rejected'}"
                                 sec:authorize="hasRole('ROLE_MANAGER')">Approve</button>
                         </form>
-                        <button class="btn btn-primary" th:attr="disabled=${app.application_status.label != 'Rejected'}"
-                            sec:authorize="hasRole('ROLE_EMPLOYEE')">
+                        <button class="btn btn-primary"
+                            th:attr="disabled=${app.application_status.label != 'Rejected'} , data-bs-target='#appealModal_'+${app.applicationId} "
+                            sec:authorize="hasRole('ROLE_EMPLOYEE')" data-bs-toggle="modal">
                             Appeal
                         </button>
+                        <!-- Modal Appeal Rejection -->
+                        <div class="modal fade" th:id="'appealModal_'+${app.applicationId}" tabindex="-1" role="dialog"
+                            aria-labelledby="appealModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-primary" id="exampleModalLongTitle"> <svg
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-triangle-alert-icon lucide-triangle-alert mx-1">
+                                                <path
+                                                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                                <path d="M12 9v4" />
+                                                <path d="M12 17h.01" />
+                                            </svg>Appeal Rejection : <span
+                                                th:text="${app.employeeUser.full_name}">User</span> </h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-start">Appeal your rejection.
+                                        </p>
+
+                                        <form method="post" th:action="@{/leave-application/appeal}">
+                                            <textarea name="appealReason" id="appealReason" class="form-control"
+                                                placeholder="Appeal Reason"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+
+                                        <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                                        <button type="submit" class="btn btn-primary">Appeal</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <button class="btn btn-outline-danger" sec:authorize="hasRole('ROLE_EMPLOYEE')"
-                            th:attr="data-bs-target='#deleteModal_'+${app.applicationId}"
-                            data-bs-toggle="modal">Cancel</button>
+                            th:attr="data-bs-target='#deleteModal_'+${app.applicationId},
+                            disabled=${app.application_status.label != 'Pending' and app.application_status.label != 'Appealed'}" data-bs-toggle="modal">Cancel</button>
                         <!-- Modal Cancel Application -->
                         <div class="modal fade" th:id="'deleteModal_'+${app.applicationId}" tabindex="-1" role="dialog"
                             aria-labelledby="deleteModal" aria-hidden="true">

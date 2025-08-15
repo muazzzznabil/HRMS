@@ -121,4 +121,28 @@ public class leave_applicationController {
         return ("redirect:/leave-application-list/manager");
     }
 
+    @PostMapping("/leave-application/reject")
+    public String rejectListApplication(@RequestParam Long applicationId, @RequestParam String rejectReason) {
+
+        leave_application findApp = leaveApplicationRepository.findById(applicationId).orElseThrow();
+        findApp.setApplication_status(LeaveStatusEnum.REJECTED);
+        findApp.setReject_reason(rejectReason);
+
+        leaveApplicationRepository.save(findApp);
+
+        return ("redirect:/leave-application-list/manager");
+    }
+
+    @PostMapping("/leave-application/appeal")
+    public String appealListApplication(@RequestParam Long applicationId, @RequestParam String appealReason) {
+
+        leave_application findApp = leaveApplicationRepository.findById(applicationId).orElseThrow();
+        findApp.setApplication_status(LeaveStatusEnum.APPEALED);
+        findApp.setAppeal_reason(appealReason);
+
+        leaveApplicationRepository.save(findApp);
+
+        return ("redirect:/leave-application-list/manager");
+    }
+
 }
