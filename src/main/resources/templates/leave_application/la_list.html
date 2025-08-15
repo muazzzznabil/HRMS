@@ -24,7 +24,7 @@
     <table class="table table-hover table-striped">
         <thead>
             <tr class="text-center">
-                <th sec:authorize="hasRole('ROLE_MANAGER')"></th>
+                <th sec:authorize="hasRole('ROLE_MANAGER')">Employee Name</th>
                 <th scope="col">Reason</th>
                 <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
@@ -32,9 +32,9 @@
                 <th class=" text-center">Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody> 
             <tr th:each="app : ${application_list}" class="text-center">
-                <td sec:authorize="hasRole('ROLE_MANAGER')"></td>
+                <td sec:authorize="hasRole('ROLE_MANAGER')" th:text="${app.employeeUser.full_name}"></td>
                 <td th:text="${app.reason}"></td>
                 <td th:text="${app.startDate}"></td>
                 <td th:text="${app.endDate}"></td>
@@ -56,8 +56,15 @@
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
-                        <button class="btn btn-outline-danger" sec:authorize="hasRole('ROLE_MANAGER')">Reject</button>
-                        <button class="btn btn-outline-success" sec:authorize="hasRole('ROLE_MANAGER')">Approve</button>
+                        <button class="btn btn-outline-danger" sec:authorize="hasRole('ROLE_MANAGER')"
+                            th:attr="disabled=${app.application_status.label == 'Approved'}">Reject</button>
+                        <form th:action="@{/leave-application/approve}" method="post"
+                            sec:authorize="hasRole('ROLE_MANAGER')">
+                            <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                            <button class="btn btn-outline-success"
+                                th:attr="disabled=${app.application_status.label == 'Approved'}"
+                                sec:authorize="hasRole('ROLE_MANAGER')">Approve</button>
+                        </form>
                         <button class="btn btn-primary" th:attr="disabled=${app.application_status.label != 'Rejected'}"
                             sec:authorize="hasRole('ROLE_EMPLOYEE')">
                             Appeal
@@ -65,7 +72,7 @@
                         <button class="btn btn-outline-danger" sec:authorize="hasRole('ROLE_EMPLOYEE')"
                             th:attr="data-bs-target='#deleteModal_'+${app.applicationId}"
                             data-bs-toggle="modal">Cancel</button>
-                            <!-- Modal Cancel Application -->
+                        <!-- Modal Cancel Application -->
                         <div class="modal fade" th:id="'deleteModal_'+${app.applicationId}" tabindex="-1" role="dialog"
                             aria-labelledby="deleteModal" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -92,7 +99,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary"
                                             data-bs-dismiss="modal">Close</button>
-                                        <form  method="post" th:action="@{/leave-application/delete}">
+                                        <form method="post" th:action="@{/leave-application/delete}">
                                             <input type="hidden" name="applicationId" th:value="${app.applicationId}">
                                             <button type="submit" class="btn btn-danger">Confirm</button>
                                         </form>

@@ -34,14 +34,18 @@
       <!-- Admin -->
       <!-- Manager -->
       <nav sec:authorize="hasRole('ROLE_MANAGER')" class="nav">
-        <a class="nav-link active" aria-current="page" href="/leave-application-list/manager"><svg
-            xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-files-icon lucide-files me-1">
-            <path d="M15 2a2 2 0 0 1 1.414.586l4 4A2 2 0 0 1 21 8v7a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
-            <path d="M15 2v4a2 2 0 0 0 2 2h4" />
-            <path d="M5 7a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 1.732-1" />
-          </svg>Leave Application Listing</a>
+        <form th:action="@{/leave-application-list/manager}">
+          <input type="hidden" name="username" th:value="${#authentication.name}">
+          <button class="btn btn-link " aria-current="page" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-files-icon lucide-files me-1">
+              <path
+                d="M15 2a2 2 0 0 1 1.414.586l4 4A2 2 0 0 1 21 8v7a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+              <path d="M15 2v4a2 2 0 0 0 2 2h4" />
+              <path d="M5 7a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 1.732-1" />
+            </svg>Leave Application Listing</button>
+        </form>
       </nav>
       <!-- Manager -->
       <!-- Employee -->

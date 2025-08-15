@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.HRMS.HRMS.Enums.LeaveStatusEnum;
+import com.HRMS.HRMS.model.Department;
 import com.HRMS.HRMS.model.leave_application;
 import com.HRMS.HRMS.model.user;
+import com.HRMS.HRMS.repository.DepartmentRepository;
 import com.HRMS.HRMS.repository.UserRepository;
 import com.HRMS.HRMS.repository.leaveApplicationRepository;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class leave_applicationController {
@@ -27,6 +30,9 @@ public class leave_applicationController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    DepartmentRepository departmentRepository;
 
     @RequestMapping("/leave-application-form")
     public String leaveApplicationForm(Model model) {
@@ -56,16 +62,32 @@ public class leave_applicationController {
     @RequestMapping("/leave-application-list/manager")
     public String listLeaveApplicationManager(Model model) {
 
-        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // String currentPrincipalName = authentication.getName();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
 
-        // user findUser = userRepository.findByUsername(currentPrincipalName).orElseThrow();
-        List<leave_application> application_list = leaveApplicationRepository.findAll();
+        user findUser = userRepository.findByUsername(currentPrincipalName).orElseThrow();
+        Department dept = findUser.getDepartment();
 
+        List<leave_application> application_list = leaveApplicationRepository.findByEmployeeUser_department(dept);
         model.addAttribute("application_list", application_list);
 
         return ("/leave_application/la_list");
     }
+
+    // // Manager List View
+    // @RequestMapping("/leave-application-list/manager")
+    // public String listLeaveApplicationManager(Model model, @RequestParam String
+    // username) {
+
+    // user findUser = userRepository.findByUsername(username).orElseThrow();
+    // Department dept = findUser.getDepartment();
+
+    // List<leave_application> application_list =
+    // leaveApplicationRepository.findByEmployeeUser_department(dept);
+    // model.addAttribute("application_list", application_list);
+
+    // return ("/leave_application/la_list");
+    // }
 
     @PostMapping("/leave-application")
     public String addLeaveApplication(@ModelAttribute leave_application leave_application,
@@ -86,6 +108,17 @@ public class leave_applicationController {
         leaveApplicationRepository.deleteById(applicationId);
 
         return ("redirect:/leave-application-list/employee");
+    }
+
+    @PostMapping("/leave-application/approve")
+    public String approveListApplication(@RequestParam Long applicationId) {
+
+        leave_application findApp = leaveApplicationRepository.findById(applicationId).orElseThrow();
+        findApp.setApplication_status(LeaveStatusEnum.APPROVED);
+
+        leaveApplicationRepository.save(findApp);
+
+        return ("redirect:/leave-application-list/manager");
     }
 
 }
