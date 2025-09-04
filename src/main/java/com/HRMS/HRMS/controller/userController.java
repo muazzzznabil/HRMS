@@ -1,7 +1,9 @@
 package com.HRMS.HRMS.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.date.date_diff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,7 @@ public class userController {
         List<Department> deptList = departmentRepository.findAll();
         List<user> userList = userRepository.findAll();
         RoleEnum[] roles = RoleEnum.values();
+
 
         model.addAttribute("Roles", roles);
         model.addAttribute("departmentList", deptList);

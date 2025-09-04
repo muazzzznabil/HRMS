@@ -116,6 +116,7 @@
                 <th scope="col">Username</th>
                 <th scope="col">Department</th>
                 <th scope="col">Roles</th>
+                <th scope="col">Last Seen</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -127,11 +128,14 @@
                 <td th:text="${user.user_id}"></td>
                 <td th:text="${user.full_name}"></td>
                 <td th:text="${user.username}"></td>
-                <td th:text="${user.department?.department_name}"></td>
                 <td
-                    th:text="${user.role.toString == 'ROLE_ADMIN' ? 'Admin' : (user.role.toString== 'ROLE_EMPLOYEE' ? 'Employee' : 'Manager')}">
+                    th:text="${user.department?.department_name == null? 'No department assigned yet':user.department?.department_name}">
                 </td>
-
+                <!-- <td
+                    th:text="${user.role.toString == 'ROLE_ADMIN' ? 'Admin' : (user.role.toString== 'ROLE_EMPLOYEE' ? 'Employee' : 'Manager')}">
+                </td> -->
+                <td th:text="${T(com.HRMS.HRMS.libs.roleName).RoleName(user.role.toString)}">Roles Name</td>
+                <td><span th:text="${user.last_loggedIn_Day}"> </span> Days Ago</td>
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-outline-warning" th:data-bs-target="'#updateModal'+${user.username}"
@@ -202,9 +206,9 @@
                                                     <div class="col-sm-10">
                                                         <select name="department" id="department" class="form-select"
                                                             required th:value="${user.department}">
-                                                            <option  disable hidden select>Select
+                                                            <option disable hidden select>Select
                                                                 Department</option>
-                                                            <option  disable hidden select
+                                                            <option disable hidden select
                                                                 th:if="${#lists.isEmpty(departmentList)}">There is no
                                                                 department registered yet!</option>
                                                             <option th:each="dept : ${departmentList}"
